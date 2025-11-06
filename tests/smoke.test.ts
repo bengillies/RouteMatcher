@@ -1,5 +1,5 @@
-import { expect, it } from "vitest";
+import { expect, it } from 'vitest';
 
-it("runs tests successfully", () => {
+it('runs tests successfully', () => {
   expect(true).toBe(true);
 });

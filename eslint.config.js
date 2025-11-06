@@ -1,118 +1,127 @@
-import js from "@eslint/js";
-import tseslint from "@typescript-eslint/eslint-plugin";
-import tsParser from "@typescript-eslint/parser";
-import globals from "globals";
-import eslintConfigPrettier from "eslint-config-prettier";
+import js from '@eslint/js';
+import tseslint from '@typescript-eslint/eslint-plugin';
+import tsParser from '@typescript-eslint/parser';
+import globals from 'globals';
+import eslintConfigPrettier from 'eslint-config-prettier';
+import eslintPluginPrettier from 'eslint-plugin-prettier';
 
 const vitestGlobals = {
-  afterAll: "readonly",
-  afterEach: "readonly",
-  beforeAll: "readonly",
-  beforeEach: "readonly",
-  describe: "readonly",
-  expect: "readonly",
-  it: "readonly",
-  test: "readonly",
-  vi: "readonly"
+  afterAll: 'readonly',
+  afterEach: 'readonly',
+  beforeAll: 'readonly',
+  beforeEach: 'readonly',
+  describe: 'readonly',
+  expect: 'readonly',
+  it: 'readonly',
+  test: 'readonly',
+  vi: 'readonly',
 };
 
 const typeScriptAdjustments = {
-  ...tseslint.configs["flat/eslint-recommended"],
-  files: ["**/*.ts"]
+  ...tseslint.configs['flat/eslint-recommended'],
+  files: ['**/*.ts'],
 };
 
-const typeCheckedRules = tseslint.configs["flat/recommended-type-checked"][2]?.rules ?? {};
-const stylisticRules = tseslint.configs["flat/stylistic-type-checked"][2]?.rules ?? {};
+const typeCheckedRules = tseslint.configs['flat/recommended-type-checked'][2]?.rules ?? {};
+const stylisticRules = tseslint.configs['flat/stylistic-type-checked'][2]?.rules ?? {};
 
 const sharedTypeScriptRules = {
   ...typeCheckedRules,
   ...stylisticRules,
-  "@typescript-eslint/consistent-type-imports": [
-    "error",
+  '@typescript-eslint/consistent-type-imports': [
+    'error',
     {
-      prefer: "type-imports",
+      prefer: 'type-imports',
       disallowTypeAnnotations: false,
-      fixStyle: "inline-type-imports"
-    }
+      fixStyle: 'inline-type-imports',
+    },
   ],
-  "@typescript-eslint/no-unused-vars": [
-    "error",
+  '@typescript-eslint/no-unused-vars': [
+    'error',
     {
-      argsIgnorePattern: "^_",
-      varsIgnorePattern: "^_"
-    }
-  ]
+      argsIgnorePattern: '^_',
+      varsIgnorePattern: '^_',
+    },
+  ],
 };
 
 const typeScriptConfig = {
-  files: ["**/*.ts"],
+  files: ['**/*.ts'],
   languageOptions: {
     parser: tsParser,
     parserOptions: {
-      project: ["./tsconfig.json"],
+      project: ['./tsconfig.json'],
       tsconfigRootDir: import.meta.dirname,
-      ecmaVersion: "latest",
-      sourceType: "module"
+      ecmaVersion: 'latest',
+      sourceType: 'module',
     },
     globals: {
       ...globals.browser,
-      ...vitestGlobals
-    }
+      ...vitestGlobals,
+    },
   },
   plugins: {
-    "@typescript-eslint": tseslint
+    '@typescript-eslint': tseslint,
   },
-  rules: sharedTypeScriptRules
+  rules: sharedTypeScriptRules,
 };
 
 const testTypeScriptConfig = {
-  files: ["tests/**/*.ts"],
+  files: ['tests/**/*.ts'],
   languageOptions: {
     parser: tsParser,
     parserOptions: {
-      project: ["./tsconfig.vitest.json"],
+      project: ['./tsconfig.vitest.json'],
       tsconfigRootDir: import.meta.dirname,
-      ecmaVersion: "latest",
-      sourceType: "module"
+      ecmaVersion: 'latest',
+      sourceType: 'module',
     },
     globals: {
-      ...globals.browser
-    }
+      ...globals.browser,
+    },
   },
   plugins: {
-    "@typescript-eslint": tseslint
+    '@typescript-eslint': tseslint,
   },
-  rules: sharedTypeScriptRules
+  rules: sharedTypeScriptRules,
 };
 
 const nodeTypeScriptConfig = {
-  files: ["*.config.ts", "vitest.config.ts"],
+  files: ['*.config.ts', 'vitest.config.ts'],
   languageOptions: {
     parser: tsParser,
     parserOptions: {
-      project: ["./tsconfig.json"],
+      project: ['./tsconfig.json'],
       tsconfigRootDir: import.meta.dirname,
-      ecmaVersion: "latest",
-      sourceType: "module"
+      ecmaVersion: 'latest',
+      sourceType: 'module',
     },
     globals: {
-      ...globals.node
-    }
+      ...globals.node,
+    },
   },
   plugins: {
-    "@typescript-eslint": tseslint
+    '@typescript-eslint': tseslint,
   },
-  rules: sharedTypeScriptRules
+  rules: sharedTypeScriptRules,
 };
 
 export default [
   {
-    ignores: ["dist", "node_modules"]
+    ignores: ['dist', 'node_modules'],
+  },
+  {
+    plugins: {
+      prettier: eslintPluginPrettier,
+    },
+    rules: {
+      'prettier/prettier': 'error',
+    },
   },
   js.configs.recommended,
   typeScriptAdjustments,
   typeScriptConfig,
   testTypeScriptConfig,
   nodeTypeScriptConfig,
-  eslintConfigPrettier
+  eslintConfigPrettier,
 ];

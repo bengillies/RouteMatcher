@@ -1,32 +1,35 @@
-import { defineConfig } from "vitest/config";
-import { playwright } from "@vitest/browser-playwright";
+import { defineConfig } from 'vitest/config';
+import { playwright } from '@vitest/browser-playwright';
 
 export default defineConfig({
   test: {
-    include: ["tests/**/*.test.ts"],
-    setupFiles: "./tests/setup.ts",
+    include: ['tests/**/*.test.ts'],
+    setupFiles: './tests/setup.ts',
     browser: {
       enabled: true,
       provider: playwright({
         launchOptions: {
-          headless: true
-        }
+          headless: true,
+        },
       }),
       instances: [
         {
-          browser: "chromium"
-        }
-      ]
+          browser: 'chromium',
+        },
+      ],
     },
     coverage: {
-      provider: "v8",
-      reporter: ["text", "html"],
+      enabled: true,
+      provider: 'v8',
+      reporter: ['text', 'html'],
+      all: true,
+      include: ['src/**/*.ts'],
       thresholds: {
         statements: 100,
         branches: 100,
         functions: 100,
-        lines: 100
-      }
-    }
-  }
+        lines: 100,
+      },
+    },
+  },
 });

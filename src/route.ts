@@ -19,7 +19,7 @@ export class InvalidRouteError extends Error {
 export class Route {
   declare id: string;
   declare url: string;
-  declare pattern: URLPattern
+  declare pattern: URLPattern;
   declare children?: Route[];
   declare source: RouteSource;
 
@@ -36,10 +36,13 @@ export class Route {
     this.pattern = new URLPattern(this.url, opts.baseUrl);
 
     if (source.children) {
-      this.children = source.children.map(child => new Route(child, {
-        parent: this,
-        baseUrl: opts.baseUrl
-      }));
+      this.children = source.children.map(
+        (child) =>
+          new Route(child, {
+            parent: this,
+            baseUrl: opts.baseUrl,
+          }),
+      );
     }
   }
 
