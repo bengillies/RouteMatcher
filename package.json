@@ -34,7 +34,7 @@
     "typescript",
     "browser"
   ],
-  "author": "",
+  "author": "Ben Gillies",
   "devDependencies": {
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.9.1",
