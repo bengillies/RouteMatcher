@@ -1,9 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import { DuplicateRouteError } from '../src/match';
 import {
+  backtrackingBranchesRouteSources,
   buildMatcher,
   buildUrl,
   duplicateIdSources,
+  multiLevelUrlLessRouteSource,
   parentWithUrlRouteSource,
   parentWithoutUrlRouteSource,
   paramRouteSource,
@@ -51,6 +53,26 @@ describe('RouteMatcher', () => {
     expect(successful?.map((match) => match.route.id)).toEqual(['group', 'group.group-detail']);
     expect(successful?.[1].match?.pathname?.groups).toMatchObject({ id: 'abc' });
     expect(unsuccessful).toBeNull();
+  });
+
+  it('supports multi-level backtracking for url-less parents', () => {
+    const matcher = buildMatcher([multiLevelUrlLessRouteSource]);
+    const result = matcher.match(buildUrl('/multi/xyz'));
+
+    expect(result?.map((match) => match.route.id)).toEqual([
+      'level-one',
+      'level-one.level-two',
+      'level-one.level-two.level-three',
+    ]);
+    expect(result?.at(-1)?.match?.pathname?.groups).toMatchObject({ id: 'xyz' });
+  });
+
+  it('continues searching after backtracking when later routes can match', () => {
+    const matcher = buildMatcher(backtrackingBranchesRouteSources);
+    const result = matcher.match(buildUrl('/target/my-slug'));
+
+    expect(result?.map((match) => match.route.id)).toEqual(['target']);
+    expect(result?.[0].match?.pathname?.groups).toMatchObject({ slug: 'my-slug' });
   });
 
   it('only returns the first matching route among peers', () => {

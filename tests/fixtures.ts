@@ -54,6 +54,37 @@ export const unmatchedChildRouteSource: RouteSource = {
   ],
 };
 
+export const multiLevelUrlLessRouteSource: RouteSource = {
+  id: 'level-one',
+  children: [
+    {
+      id: 'level-two',
+      children: [
+        {
+          id: 'level-three',
+          url: '/multi/:id',
+        },
+      ],
+    },
+  ],
+};
+
+export const backtrackingBranchesRouteSources: RouteSource[] = [
+  {
+    id: 'dead-end',
+    children: [
+      {
+        id: 'dead-end-child',
+        url: '/dead/child',
+      },
+    ],
+  },
+  {
+    id: 'target',
+    url: '/target/:slug',
+  },
+];
+
 export const wildcardRouteSource: RouteSource = {
   id: 'wildcard',
   url: '/app/:rest*',
