@@ -8,7 +8,6 @@
     "**/*.test.ts"
   ],
   "compilerOptions": {
-    "noEmit": false,
-    "types": []
+    "noEmit": false
   }
 }

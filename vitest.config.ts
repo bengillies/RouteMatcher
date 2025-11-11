@@ -22,7 +22,6 @@ export default defineConfig({
       enabled: true,
       provider: 'v8',
       reporter: ['text', 'html'],
-      all: true,
       include: ['src/**/*.ts'],
       thresholds: {
         statements: 100,
