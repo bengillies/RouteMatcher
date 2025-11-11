@@ -1,9 +1,9 @@
 {
   "name": "route-matcher",
   "version": "0.1.0",
-  "description": "Browser-focused route matching toolkit.",
+  "description": "Route matching library based on URLPattern, supporting child routes",
   "type": "module",
-  "license": "MIT",
+  "license": "BSD-3-Clause",
   "main": "./dist/route-matcher.js",
   "module": "./dist/route-matcher.js",
   "types": "./dist/types/index.d.ts",
