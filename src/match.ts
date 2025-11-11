@@ -1,7 +1,7 @@
 import { Route } from './route';
 import type { RouteSource } from './route';
 
-export type URLPatternMatch = ReturnType<URLPattern['exec']>;
+export type URLPatternMatch = URLPatternResult;
 
 export interface URLMatch {
   route: Route;
